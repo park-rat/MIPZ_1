@@ -11,23 +11,13 @@ public class WinnerFinder {
     private void checkNext(PositionData positionData) {
         PositionData.Direction direction = positionData.getDirection();
         board[positionData.getRow()][positionData.getCol()].getAllowedDirections().remove(direction);
-        int nextRow;
-        int nextCol;
-        if (direction == PositionData.Direction.RIGHT) {
-            nextRow = positionData.getRow();
-            nextCol = positionData.getCol() + 1;
+        int nextRow = direction == PositionData.Direction.RIGHT ? positionData.getRow() : positionData.getRow() + 1;
+        int nextCol = positionData.getCol(); // default for DOWN
+        if (direction == PositionData.Direction.RIGHT || direction == PositionData.Direction.DOWN_RIGHT) {
+            nextCol ++;
         }
-        else {
-            nextRow = positionData.getRow() + 1;
-            if (direction == PositionData.Direction.DOWN_RIGHT) {
-                nextCol = positionData.getCol() + 1;
-            }
-            else if (direction == PositionData.Direction.DOWN_LEFT) {
-                nextCol = positionData.getCol() - 1;
-            }
-            else /* DOWN */ {
-                nextCol = positionData.getCol();
-            }
+        else if (direction == PositionData.Direction.DOWN_LEFT) {
+            nextCol --;
         }
         if (nextRow < 0 || nextRow >= Main.BOARD_WIDTH || nextCol < 0 || nextCol >= Main.BOARD_WIDTH) {
             return;
